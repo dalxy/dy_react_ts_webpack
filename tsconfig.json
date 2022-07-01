@@ -7,10 +7,15 @@
     "moduleResolution": "node",
     "target": "es5",
     "jsx": "react",
-    "esModuleInterop":true
+    "esModuleInterop":true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"
   ],
   "exclude": [
     "./dist"

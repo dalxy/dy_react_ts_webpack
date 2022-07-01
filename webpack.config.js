@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const tsImportPluginFactory = require("ts-import-plugin");
+
 const path = require("path");
 module.exports = {
     mode: process.env.NODE_ENV == "production" ? "production" : "development", //默认是开发模块
@@ -19,7 +19,6 @@ module.exports = {
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "src"),
-            "~": path.resolve(__dirname, "node_modules"),
         },
         //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
         extensions: [".js", ".tsx", ".ts", ".json"],
@@ -64,6 +63,6 @@ module.exports = {
             template: "./public/index.html",
         }),
         //热更新插件
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
     ],
 };

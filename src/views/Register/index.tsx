@@ -1,6 +1,7 @@
 import React from "react";
-import { AutoComplete, Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input } from 'antd';
 import type { FormInstance } from 'antd/es/form';
+import { Link } from "react-router-dom";
 
 import './index.less'
 
@@ -17,10 +18,6 @@ class Register extends React.Component {
 
   onFinish = (values: any) => {
     console.log(values);
-  };
-
-  onReset = () => {
-    this.formRef.current!.resetFields();
   };
 
   onFill = () => {
@@ -51,11 +48,14 @@ class Register extends React.Component {
           </Form.Item>
           <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
-            Submit
+            注册
           </Button>
-          <Button htmlType="button" onClick={this.onReset}>
-            Reset
-          </Button>
+          <Link to = '/login'>
+            <Button htmlType="button" 
+            >
+              登陆
+            </Button>
+          </Link>
           <Button type="link" htmlType="button" onClick={this.onFill}>
             Fill form
           </Button>
