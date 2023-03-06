@@ -5,9 +5,8 @@ import App from './router/index'
 import '@/assets/common.less'
 
 // import axios from './api/index'
-// React.$axios = axios
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <App />
