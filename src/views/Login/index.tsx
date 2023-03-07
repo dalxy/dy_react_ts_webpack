@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import './index.less'
 import  { login } from '@/api/auth'
+import { UserInfo } from "@/typing/auth";
 
 const layout = {
   labelCol: { span: 8 },
@@ -18,15 +19,18 @@ class Login extends React.Component {
   formRef = React.createRef<FormInstance>();
 
   onFinish = async (values: any) => {
-    console.log(values);
-    const res = await login();
-    console.log(res)
+    // console.log(values);
+    const {data:res} = await login(values);
+    if(res.code === 0){
+      console.log(res)
+      window.location.href = '/home'
+    }
   };
-
+  // 自动填充用户名和密码
   onFill = () => {
     this.formRef.current!.setFieldsValue({
       username: 'admin',
-      password: 'admin',
+      password: 123456,
     });
   };
 

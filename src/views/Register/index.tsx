@@ -23,7 +23,7 @@ class Register extends React.Component {
   onFill = () => {
     this.formRef.current!.setFieldsValue({
       username: 'admin',
-      password: 'admin',
+      password: 123456,
     });
   };
 
