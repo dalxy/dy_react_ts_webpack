@@ -50,15 +50,18 @@ const SiderBar: React.FC = () => {
     return (
         <Layout style={{minHeight:'100vh'}}>
             <Sider collapsed={collapsed} collapsible onCollapse={(value)=>setCollapsed(value)}>
-                <div style={{height: 32, margin: 16, background: 'rgba(255,255,255,.2)'}} />
+                <div style={{color: "white", height: 32, margin: 16, display: "flex", alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,.2)'}}>人类观察所</div>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
             <Layout className="site-layout">
                 <Header style={{ padding: 0, background: colorBgContainer }} />
                 <Content style={{ margin: '0 16px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb items={[{title: 'sample'}]}>User</Breadcrumb>
-                    <Breadcrumb items={[{title: 'sample'}]}>Bill</Breadcrumb>
+                <Breadcrumb
+                    style={{ margin: '16px 0' }} 
+                    items={[
+                        {title: 'User'},
+                        {title: <a href="/">Bill</a>}
+                    ]}>
                 </Breadcrumb>
                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
                     Bill is a cat.
