@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 // import styled from "styled-components";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import {
@@ -18,18 +18,20 @@ function getItem(
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
-    children?: MenuItem[]
+    children?: MenuItem[],
+    link?: React.ReactNode
 ): MenuItem {
     return {
         key,
         icon,
         children,
         label,
+        link
     } as MenuItem;
 }
 
 const items: MenuItem[] = [
-    getItem("Option 1", "1", <PieChartOutlined />),
+    getItem("Option 1", "1", <PieChartOutlined />,),
     getItem("Option 2", "2", <DesktopOutlined />),
     getItem("User", "sub1", <UserOutlined />, [
         getItem("Tom", "3"),
@@ -43,7 +45,7 @@ const items: MenuItem[] = [
     getItem("Files", "9", <FileOutlined />),
 ];
 
-const SiderBar: React.FC = () => {
+const LayoutPage: React.FC = () => {
     const [ collapsed, setCollapsed ] = useState(false)
     
     const { token: { colorBgContainer } } = theme.useToken()
@@ -73,4 +75,4 @@ const SiderBar: React.FC = () => {
     )
 };
 
-export default SiderBar;
+export default LayoutPage;

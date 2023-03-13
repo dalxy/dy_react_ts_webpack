@@ -4,7 +4,7 @@ import type { FormInstance } from 'antd/es/form';
 import { Link } from "react-router-dom";
 
 import './index.less'
-import  { login } from '@/api/auth'
+import  { login } from '@/utils/api'
 import { UserInfo } from "@/typing/auth";
 
 const layout = {
@@ -39,7 +39,7 @@ class Login extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="login">
         <div className="title">人类观察所</div>
         <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish} className="form">
           <Form.Item label="Username" name="username"
@@ -75,6 +75,7 @@ class Login extends React.Component {
 export default Login;
 
 <Form.Item
+  className="form"
   label="Username"
   name="username"
   rules={[{ required: true, message: 'Please input your username!' }]}

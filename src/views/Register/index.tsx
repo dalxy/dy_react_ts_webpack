@@ -4,6 +4,8 @@ import type { FormInstance } from 'antd/es/form';
 import { Link } from "react-router-dom";
 
 import './index.less'
+import  { register } from '@/utils/api'
+import { UserInfo } from "@/typing/auth";
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,10 +18,15 @@ const tailLayout = {
 class Register extends React.Component {
   formRef = React.createRef<FormInstance>();
 
-  onFinish = (values: any) => {
-    console.log(values);
+  onFinish = async (values: any) => {
+    // console.log(values);
+    const {data:res} = await register(values);
+    if(res.code === 0){
+      console.log(res)
+      window.location.href = '/home'
+    }
   };
-
+  // 自动填充用户名和密码
   onFill = () => {
     this.formRef.current!.setFieldsValue({
       username: 'admin',
@@ -32,7 +39,7 @@ class Register extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="register">
         <div className="title">人类观察所</div>
         <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish} className="form">
           <Form.Item label="Username" name="username"
@@ -51,9 +58,8 @@ class Register extends React.Component {
             注册
           </Button>
           <Link to = '/login'>
-            <Button htmlType="button" 
-            >
-              登陆
+            <Button htmlType="button">
+            登录
             </Button>
           </Link>
           <Button type="link" htmlType="button" onClick={this.onFill}>
@@ -69,6 +75,7 @@ class Register extends React.Component {
 export default Register;
 
 <Form.Item
+  className="form"
   label="Username"
   name="username"
   rules={[{ required: true, message: 'Please input your username!' }]}

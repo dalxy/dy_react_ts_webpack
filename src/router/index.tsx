@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from '@/store/index'
 import { Redirect } from '@/hook/Redirect';
 
-import SiderBar from '@/components/SiderBar';
+import LayoutPage from '@/layout/index';
 
 const Register = lazy(() => import('@/views/Register'));
 const Login = lazy(() => import('@/views/Login'));
@@ -14,7 +14,7 @@ const About = lazy(() => import('@/views/About'));
 
 const App = () => (
   <Provider store = { store }>
-    <SiderBar />
+    {/* <LayoutPage /> */}
     <Router>
       <Suspense fallback={<div>Loading。。。</div>}>
         <Routes>
