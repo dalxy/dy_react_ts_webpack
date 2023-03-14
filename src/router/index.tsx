@@ -5,12 +5,13 @@ import { Provider } from 'react-redux';
 import store from '@/store/index'
 import { Redirect } from '@/hook/Redirect';
 
-import LayoutPage from '@/layout/index';
+// import LayoutPage from '@/layout/index';
 
 const Register = lazy(() => import('@/views/Register'));
 const Login = lazy(() => import('@/views/Login'));
 const Home = lazy(() => import('@/views/Home'));
 const About = lazy(() => import('@/views/About'));
+const Layout = lazy(() => import('@/layout/index'));
 
 const App = () => (
   <Provider store = { store }>
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/layout" element={<Layout />} />
           <Route path="/" element={<Redirect to='/home' replace />} />
         </Routes>
       </Suspense>

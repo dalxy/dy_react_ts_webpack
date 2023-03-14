@@ -4,7 +4,7 @@ import type { FormInstance } from 'antd/es/form';
 import { Link } from "react-router-dom";
 
 import './index.less'
-import  { register } from '@/utils/api'
+import  { $register } from '@/utils/api'
 import { UserInfo } from "@/typing/auth";
 
 const layout = {
@@ -20,7 +20,7 @@ class Register extends React.Component {
 
   onFinish = async (values: any) => {
     // console.log(values);
-    const {data:res} = await register(values);
+    const {data:res} = await $register(values);
     if(res.code === 0){
       console.log(res)
       window.location.href = '/home'
