@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from 'antd';
 import type { FormInstance } from 'antd/es/form';
@@ -19,6 +19,11 @@ const tailLayout = {
 // function Login() {
 const Login: React.FC = () => {
   const navigate = useNavigate()
+  useEffect(()=>{
+    if(sessionStorage.getItem('token')){
+      navigate('/layout')
+    }
+  }, [])
   const formRef = React.createRef<FormInstance>();
   const onFinish = async (values: LoginParams) => {
     values.userid = '1492379424'

@@ -24,7 +24,7 @@ const App = () => (
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/layout" element={<Layout />} />
-          <Route path="/" element={<Redirect to='/home' replace />} />
+          <Route path="/" element={<Redirect to='/login' replace />} />
         </Routes>
       </Suspense>
     </Router>

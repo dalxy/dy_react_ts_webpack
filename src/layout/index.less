@@ -1,9 +1,9 @@
 .layout{
     width: 100vw;
     height: 100vh;
-    .right{
-        background-color: red;
-    }
+    // .right{
+        // background-color: red;
+    // }
     .logo{
         height: 32px;
         margin: 16px;
@@ -15,6 +15,17 @@
     }
     .header{
         padding-left: 5px;
+        padding-right: 0;
+        // display: flex;
+        // justify-content: space-between;
+        // border: 1px solid red;
+        .menu{
+            // background-color: red;
+            padding: 0 10px;
+            float: right;
+            // background-color: #001529;
+            // color: white;
+        }
         .trigger{
             padding: 0;
             font-size: 18px;
@@ -29,10 +40,5 @@
     }
     .content{
         padding: 5px;
-        border: 1px solid #ccc;
     }
 }
-#components-layout-demo-custom-trigger .trigger:hover {
-    color: #1890ff;
-}
-
