@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import {
   HomeOutlined,
   MenuFoldOutlined,
@@ -13,48 +13,54 @@ import {
   ExclamationCircleFilled 
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, message, Button, Modal, Space } from 'antd';
+import { Layout, Menu, Modal } from 'antd';
 import './index.less'
 
 const { Header, Sider, Content } = Layout;
 const navItem: MenuProps['items'] = [
   {
-    key: '1',
+    key: 'home',
     icon: <HomeOutlined />,
     label: '首页',
   },
   {
-    key: '2',
+    key: 'users',
     icon: <VideoCameraOutlined />,
-    label: '账户管理',
+    label: '用户',
     children: [
       {
-        key: '2-1',
+        key: 'userTable',
         icon: <VideoCameraOutlined />,
-        label: '账户管理1',
+        label: '用户列表',
       },
       {
-        key: '2-2',
+        key: 'userManager',
         icon: <VideoCameraOutlined />,
-        label: '账户管理2',
+        label: '用户管理',
       },
     ]
   },
   {
-    key: '3',
+    key: 'rule',
     icon: <UploadOutlined />,
-    label: '客户管理',
+    label: '规则',
+  },
+  {
+    key: 'manager',
+    icon: <UploadOutlined />,
+    label: '地区管理',
   },
 ]
 const items: MenuProps['items'] = [
   {
-    label: '首页',
-    key: 'home',
+    label: '新闻',
+    key: 'news',
     icon: <HomeOutlined />,
   },
   {
-    label: '新闻',
-    key: 'news',
+    label: '关于',
+    // key: 'news',
+    key: 'about',
     icon: <MailOutlined />,
   },
   {
@@ -97,30 +103,37 @@ const items: MenuProps['items'] = [
 const { confirm } = Modal;
 
 const LayoutPage: React.FC = () => {
+  let routeKey:any = sessionStorage.getItem('routeKey')
+  if(!routeKey){
+    routeKey = 'home'
+  }
   const [collapsed, setCollapsed] = useState(false);
-  const [current, setCurrent] = useState('home');
+  const [current, setCurrent] = useState(routeKey);
   const navigate = useNavigate()
   const onClick: MenuProps['onClick'] = (e) => {
+    if(routeKey !== 'exit'){
+      sessionStorage.setItem('routeKey', e.key)
+    }
     setCurrent(e.key);
-    switch (e.key){
-      case 'exit':
-        confirm({
-          title: '确定退出系统吗？',
-          icon: <ExclamationCircleFilled />,
-          content: 'Some descriptions',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk() {
-            sessionStorage.clear()
-            localStorage.clear()
-            navigate('/')
-          },
-          onCancel() {
-            console.log('Cancel');
-          },
-        });
-        break
+    if(e.key === 'exit'){
+      confirm({
+        title: '确定退出系统吗？',
+        icon: <ExclamationCircleFilled />,
+        content: 'Some descriptions',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk() {
+          sessionStorage.clear()
+          localStorage.clear()
+          navigate('/')
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      })
+    }else{
+      navigate(`/layout/${e.key}`)
     }
   };
   return (
@@ -131,7 +144,9 @@ const LayoutPage: React.FC = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
+          selectedKeys={[current]}
           items={navItem}
+          onClick={onClick}
         />
       </Sider>
       <Layout className='right'>
@@ -140,10 +155,11 @@ const LayoutPage: React.FC = () => {
             className: 'trigger',
             onClick: () => setCollapsed(!collapsed),
           })}
-          <Menu theme='dark' onClick={onClick} className='menu' selectedKeys={[current]} mode="horizontal" items={items} />;
+          <Menu theme='dark' onClick={onClick} className='menu headerMenu' selectedKeys={[current]} mode="horizontal" items={items} />;
         </Header>
         <Content className='content'>
-          Content
+          {/* Content */}
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

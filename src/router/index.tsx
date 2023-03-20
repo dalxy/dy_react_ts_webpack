@@ -12,6 +12,9 @@ const Login = lazy(() => import('@/views/Login'));
 const Home = lazy(() => import('@/views/Home'));
 const About = lazy(() => import('@/views/About'));
 const Layout = lazy(() => import('@/layout/index'));
+const UserManger = lazy(() => import('@/views/UserManager'));
+const Rule = lazy(() => import('@/views/Rule'));
+const UserTable = lazy(() => import('@/views/UserTable'));
 
 const App = () => (
   <Provider store = { store }>
@@ -21,9 +24,13 @@ const App = () => (
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/layout" element={<Layout />} />
+          <Route path="/layout" element={<Layout />}>
+            <Route path="home" element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="userManager" element={<UserManger />} />
+            <Route path="userTable" element={<UserTable />} />
+            <Route path="rule" element={<Rule />} />
+          </Route>
           <Route path="/" element={<Redirect to='/login' replace />} />
         </Routes>
       </Suspense>

@@ -6,6 +6,7 @@ module.exports = {
     mode: process.env.NODE_ENV == "production" ? "production" : "development", //默认是开发模块
     entry: "./src/index.tsx",
     output: {
+        publicPath: "/",
         path: path.join(__dirname, "dist"),
         filename: "bundle.js",
     },
