@@ -4,7 +4,7 @@ import { Button, Form, Input } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 
 import './index.less'
-import  { $login } from '@/utils/api'
+import  { $login } from '@/utils/api/adminApi'
 import { LoginParams } from "@/typing/auth";
 import notificate from '@/components/Notification'
 

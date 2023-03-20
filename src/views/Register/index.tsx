@@ -4,7 +4,7 @@ import type { FormInstance } from 'antd/es/form';
 import { Link } from "react-router-dom";
 
 import './index.less'
-import  { $register } from '@/utils/api'
+import  { $register } from '@/utils/api/adminApi'
 import { UserInfo } from "@/typing/auth";
 
 const layout = {
