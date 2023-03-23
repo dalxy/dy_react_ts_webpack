@@ -7,6 +7,10 @@ export const $AuthorityList = async (data?: any) => {
 
 export const $AddUser = async (data?: any) => {
     const res = await axios.post("/reactAdmin/addUser", data);
-    console.log(res);
+    return res;
+};
+
+export const $DelUser = async (params?: any) => {
+    const res = await axios.post("/reactAdmin/delUser", params);
     return res;
 };
