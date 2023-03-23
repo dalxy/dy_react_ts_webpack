@@ -31,10 +31,10 @@ const Login: React.FC = () => {
     console.log(res)
     if(res.code === 0){
       // window.location.href = '/home'
-      notificate('success', res.message, res.description)
+      notificate({type: 'success', message: res.message})
       navigate('/layout')
     }else{
-      notificate('error', res.message, res.description)
+      notificate({type: 'error', message: res.message})
     }
   };
   // 自动填充用户名和密码

@@ -1,60 +1,43 @@
-import React from 'react';
+// import React from 'react';
 import { notification } from 'antd';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
-export default function notificate (type: NotificationType, message='系统提示', description:any) {
+interface notiMsg{
+  type: NotificationType,
+  message: string
+}
+
+export default function notificate (notiMsg: notiMsg) {
   notification.open({
-    type: type,
-    message: message,
-    description: description,
+    type: notiMsg.type,
+    message: '系统提示',
+    description: notiMsg.message,
     duration: 3, // duration in seconds
   });
 };
 
-// interface NotificationProps {
-//   type: 'success' | 'info' | 'warning' | 'error';
-//   message: string;
-//   description?: string;
-// }
-
-// const Notification: React.FC<NotificationProps> = ({ type, message, description }) => {
-//   const openNotification = () => {
-//     notification[type]({
-//       message: message,
-//       description: description,
-//       duration: 3, // duration in seconds
-//     });
-//   };
-//   return (
-//     <>
-//       <div>
-//         <button onClick={openNotification}>Show Notification</button>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default Notification
-
-{
-//   import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
 // import { notification } from 'antd';
-// type NotificationType = 'success' | 'info' | 'warning' | 'error';
-// const notificate: React.FC = ({type,description}) => {
+// import {NotificationProps}from '@/typing/auth'
+
+// const Notification: React.FC<NotificationProps> = ({type, message}) => {
 //   const [api, contextHolder] = notification.useNotification();
-//   useEffect(()=>{
-//     api[type]({
-//       message: 'Notification Title',
-//       description:
-//         'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-//     });
-//   }, [type])
+
+//     if(type){
+//       useEffect(() => {
+//         api[type]({
+//         message: '系统提示',
+//         description:message,
+//       })},[type])
+//     }
+
 //   return (
 //     <>
 //       {contextHolder}
 //     </>
 //   );
 // };
-// export default notificate;
-}
+
+// export default Notification;
+// }

@@ -41,6 +41,11 @@ const navItem: MenuProps['items'] = [
     ]
   },
   {
+    key: 'authority',
+    icon: <VideoCameraOutlined />,
+    label: '权限',
+  },
+  {
     key: 'rule',
     icon: <UploadOutlined />,
     label: '规则',
