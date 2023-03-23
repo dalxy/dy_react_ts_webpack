@@ -6,6 +6,8 @@ import notificate from '@/components/Notification'
 interface AddAuthorityProps {
     open: boolean;
     setOpen: (open: boolean) => void;
+    // onload: boolean;
+    // setOnload: (onload: boolean) => void;
     loadAuthorityList: () => void;
 }
 
@@ -14,6 +16,7 @@ const AddAuthority: React.FC<AddAuthorityProps> = ({open, setOpen}) => {
     const onFinish = async (values: any) => {
         let {data: res} = await $AddUser({userName: values.userName})
         if(res.code === 0){
+            // setOnload(true);
             notificate({type: 'success', message: res.message})
         }else{
             notificate({type: 'error', message: res.message})
