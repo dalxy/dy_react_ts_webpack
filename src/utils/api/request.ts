@@ -12,7 +12,6 @@ instance.interceptors.request.use(
         if (sessionStorage.getItem("token")) {
             config.headers.token = sessionStorage.getItem("token");
         }
-        // console.log(config);
         // 在发送请求之前做些什么
         return config;
     },

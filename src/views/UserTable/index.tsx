@@ -51,7 +51,6 @@ const UsersTable: React.FC = () => {
   useEffect(()=>{
     $userTable({id: '0'}).then(res=>{
       let { userTable: userTable } = res.data
-      console.log(userTable)
       setUserTable(userTable)
     })
   }, [])

@@ -26,9 +26,8 @@ const Login: React.FC = () => {
   }, [])
   const formRef = React.createRef<FormInstance>();
   const onFinish = async (values: LoginParams) => {
-    values.userid = '1492379424'
+    values.uid = '1492379424'
     const res= await $login(values);
-    console.log(res)
     if(res.code === 0){
       // window.location.href = '/home'
       notificate({type: 'success', message: res.message})

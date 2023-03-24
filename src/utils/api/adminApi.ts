@@ -6,9 +6,7 @@ export const $register = (data: any) =>
 
 export const $login = async (params: any) => {
     params.password = md5(md5(params.password).split("").reverse().join(""));
-    // console.log(params);
     let { data: res } = await axios.post("/reactAdmin/login", { params });
-    console.log(res);
     if (res.code === 0) {
         sessionStorage.setItem("token", res.token);
     }

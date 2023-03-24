@@ -5,12 +5,22 @@ export const $AuthorityList = async (data?: any) => {
     return res;
 };
 
-export const $AddUser = async (data?: any) => {
-    const res = await axios.post("/reactAdmin/addUser", data);
+export const $AddAuthority = async (data?: any) => {
+    const res = await axios.post("/reactAdmin/addAuthority", data);
     return res;
 };
 
-export const $DelUser = async (params?: any) => {
-    const res = await axios.post("/reactAdmin/delUser", params);
+export const $DelAuthority = async (params?: any) => {
+    const res = await axios.post("/reactAdmin/delAuthority", params);
+    return res;
+};
+
+export const $EditAuthority = async (params?: any) => {
+    const res = await axios.post("/reactAdmin/editAuthority", params);
+    return res;
+};
+
+export const $GetAuthority = async (params?: any) => {
+    const res = await axios.post("/reactAdmin/getAuthority", params);
     return res;
 };

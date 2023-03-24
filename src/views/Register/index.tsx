@@ -19,10 +19,8 @@ class Register extends React.Component {
   formRef = React.createRef<FormInstance>();
 
   onFinish = async (values: any) => {
-    // console.log(values);
     const {data:res} = await $register(values);
     if(res.code === 0){
-      console.log(res)
       window.location.href = '/home'
     }
   };

@@ -1,7 +1,7 @@
 export interface LoginParams {
-    userid?: string;
+    uid?: string;
     username: string;
-    password: string;
+    password?: string;
 }
 export interface UserInfo {
     code: number;

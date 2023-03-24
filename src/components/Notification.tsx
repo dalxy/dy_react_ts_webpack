@@ -1,11 +1,13 @@
 // import React from 'react';
 import { notification } from 'antd';
+import type { NotificationPlacement } from 'antd/es/notification/interface';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 interface notiMsg{
   type: NotificationType,
-  message: string
+  message: string,
+  placement?: NotificationPlacement
 }
 
 export default function notificate (notiMsg: notiMsg) {
@@ -13,7 +15,8 @@ export default function notificate (notiMsg: notiMsg) {
     type: notiMsg.type,
     message: '系统提示',
     description: notiMsg.message,
-    duration: 3, // duration in seconds
+    duration: 2, // duration in seconds
+    placement: 'bottomRight',
   });
 };
 

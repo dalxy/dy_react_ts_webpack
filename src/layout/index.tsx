@@ -134,7 +134,6 @@ const LayoutPage: React.FC = () => {
           navigate('/')
         },
         onCancel() {
-          console.log('Cancel');
         },
       })
     }else{
