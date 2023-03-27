@@ -3,7 +3,12 @@ export interface LoginParams {
     username: string;
     password?: string;
 }
-export interface UserInfo {
-    code: number;
-    data: string;
-}
+
+// export interface UserInfo {
+//     userId: string;
+//     password: string;
+//     userName: string;
+//     phone: number;
+//     uid: number;
+//     photo: string;
+// }

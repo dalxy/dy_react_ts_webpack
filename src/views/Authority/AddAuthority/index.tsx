@@ -1,29 +1,32 @@
 import React, { useEffect } from "react"
 import { Button, Drawer, Form, Input } from "antd";
-import { $AddAuthority, $EditAuthority, $GetAuthority } from "@/utils/api/authority";
+import { $AddAuthority, $EditAuthority } from "@/utils/api/authority";
+import { $GetUserAuthority } from "@/utils/api/authority";
 import notificate from '@/components/Notification'
 
 interface AddAuthorityProps {
     open: boolean;
     setOpen: (open: boolean) => void;
     loadAuthorityList: () => void;
-    uid: number;
-    setUid: (uid: number) => void
+    authorityId: number;
+    setAuthorityId: (authorityId: number) => void
 }
 
-const AddAuthority: React.FC<AddAuthorityProps> = ({open, setOpen, loadAuthorityList, uid, setUid}) => {
+const AddAuthority: React.FC<AddAuthorityProps> = ({open, setOpen, loadAuthorityList, authorityId, setAuthorityId}) => {
     let [form] = Form.useForm()
     useEffect(()=>{
-        if(uid !== 0){
-            $GetAuthority({uid}).then(res => {
+        console.log(authorityId);
+        if(authorityId !== 0){
+            $GetUserAuthority({authorityId}).then(res => {
                 let { userList } = res.data
+                console.log(userList)
                 form.setFieldsValue(userList[0])
             })
         }
-    }, [uid])
+    }, [authorityId])
     const onFinish = async (values: any) => {
-        if(uid){
-            let {data: res} = await $EditAuthority({uid: uid,userName: values.userName})
+        if(authorityId){
+            let {data: res} = await $EditAuthority({authorityId: authorityId,authorityName: values.authorityName})
             if(res.code === 0){
                 notificate({type: 'success', message: res.message})
                 loadAuthorityList()
@@ -31,7 +34,7 @@ const AddAuthority: React.FC<AddAuthorityProps> = ({open, setOpen, loadAuthority
                 notificate({type: 'error', message: res.message})
             }
         }else{
-            let {data: res} = await $AddAuthority({uid: uid,userName: values.userName})
+            let {data: res} = await $AddAuthority({authorityId: authorityId,authorityName: values.authorityName})
             if(res.code === 0){
                 notificate({type: 'success', message: res.message})
                 loadAuthorityList()
@@ -46,16 +49,16 @@ const AddAuthority: React.FC<AddAuthorityProps> = ({open, setOpen, loadAuthority
     };
     const onClose = () => {
         setOpen(false);
-        setUid(0)
+        setAuthorityId(0)
         clearForm()
     };
     const clearForm = () => {
-        form.setFieldsValue({userName: ''});
+        form.resetFields();
     };
     return (
         <>
             <Drawer
-                title={ uid ? "修改角色":"添加角色" }
+                title={ authorityId ? "修改角色":"添加角色" }
                 width={500}
                 placement="right"
                 onClose={onClose}
@@ -74,23 +77,22 @@ const AddAuthority: React.FC<AddAuthorityProps> = ({open, setOpen, loadAuthority
                 >
                     <Form.Item
                         label="用户编号"
-                        name="uid"
-                        // rules={[{ required: true, message: 'Please input your username!' }]}
+                        name="authorityId"
                         hidden
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="用户名称"
-                        name="userName"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        name="authorityName"
+                        rules={[{ required: true, message: 'Please input your authorityName!' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                         <Button type="primary" htmlType="submit">
-                            { uid ? "修改":"添加" }
+                            { authorityId ? "修改":"添加" }
                         </Button>
                         <Button style={{marginLeft: '10px'}} type="primary" htmlType="button" onClick={onClose}>
                             取消

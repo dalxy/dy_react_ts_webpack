@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import './index.less'
 import  { $register } from '@/utils/api/adminApi'
-import { UserInfo } from "@/typing/auth";
+// import { UserInfo } from "@/typing/auth";
 
 const layout = {
   labelCol: { span: 8 },

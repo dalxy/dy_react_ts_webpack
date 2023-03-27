@@ -20,7 +20,7 @@ export const $EditAuthority = async (params?: any) => {
     return res;
 };
 
-export const $GetAuthority = async (params?: any) => {
-    const res = await axios.post("/reactAdmin/getAuthority", params);
+export const $GetUserAuthority = async (params?: any) => {
+    const res = await axios.post("/reactAdmin/getUserAuthority", params);
     return res;
 };

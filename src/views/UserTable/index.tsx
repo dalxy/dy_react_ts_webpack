@@ -1,43 +1,86 @@
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Drawer, Form, Input, Table } from "antd";
-import { $userTable } from "@/utils/api/userManagerApi";
+import { Button, Checkbox, Drawer, Form, Input, Popconfirm, Table } from "antd";
+import { $UserTable, $DelUser } from "@/utils/api/userManagerApi";
 import './index.less'
+import AddUser from './AddUser'
+import type { ColumnsType } from 'antd/es/table';
+import { DataType } from '@/typing/userTable'
+import notificate from "@/components/Notification";
 
-const dataSource = [
-  {
-    key: '1',
-    name: '胡彦斌',
-    age: 32,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    name: '胡彦祖',
-    age: 42,
-    address: '西湖区湖底公园1号',
-  },
-];
-
-const columns = [
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-];
 const UsersTable: React.FC = () => {
-  const [userTable, setUserTable] = useState()
+  const [userTable, setUserTable] = useState([])
   const [open, setOpen] = useState(false);
+  const [uid, setUid] = useState(0);
+  const columns: ColumnsType<DataType> = [
+    {
+      title: '编号',
+      dataIndex: 'uid',
+    },
+    {
+      title: '用户id',
+      dataIndex: 'userId',
+    },
+    {
+      title: '密码',
+      dataIndex: 'password',
+    },
+    {
+      title: '姓名',
+      dataIndex: 'userName',
+    },
+    {
+      title: '手机号',
+      dataIndex: 'mobile',
+    },
+    {
+      title: '照片',
+      dataIndex: 'photo',
+    },
+    {
+      title: '角色',
+      dataIndex: 'authorityId',
+    },
+    {
+      title: '操作',
+      key: 'tags',
+      render: (data) => (
+        <>
+          <Button
+            size="small"
+            style= {{ borderColor: 'orange', color: 'orange' }}
+            onClick={
+              () => { edit(data) }}
+            >编辑</Button>
+          <Popconfirm
+            title="提示"
+            description="确定删除吗？"
+            onConfirm={() => del(data)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Button style={{marginLeft: '5px'}} danger size="small">
+              删除
+            </Button>
+          </Popconfirm>
+        </>
+      ),
+    },
+  ];
+  const del = async (data: any) => {
+    let {data: res} = await $DelUser({uid: data.uid})
+    if(res.code === 0){
+      notificate({type: 'success', message: res.message})
+      loadUserTable()
+    }else{
+      notificate({type: 'error', message: res.message})
+    }
+  }
+  
+  const edit = async (data: any) => {
+    setOpen(true)
+    setUid(data.uid)
+  }
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -48,11 +91,21 @@ const UsersTable: React.FC = () => {
   const onClose = () => {
     setOpen(false);
   };
-  useEffect(()=>{
-    $userTable({id: '0'}).then(res=>{
-      let { userTable: userTable } = res.data
-      setUserTable(userTable)
+  const loadUserTable= async () => {
+    $UserTable({pageIndex: 1, pageSize: 10}).then((res)=>{
+      let { userList } = res.data
+      console.log(userList)
+      userList = userList.map((r: any)=>{
+        return {
+          ...r,
+          key: r.uid
+        }
+      })
+      setUserTable(userList)
     })
+  }
+  useEffect(()=>{
+    loadUserTable()
   }, [])
   return(
     <>
@@ -64,7 +117,7 @@ const UsersTable: React.FC = () => {
         </Button>
       </div>
       <Table size="small" dataSource={userTable} columns={columns} />
-      <Drawer title="添加角色" width={500} placement="right" onClose={onClose} open={open}>
+      {/* <Drawer title="添加角色" width={500} placement="right" onClose={onClose} open={open}>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
@@ -101,7 +154,9 @@ const UsersTable: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
-      </Drawer>
+      </Drawer> */}
+      <AddUser open={open} setOpen={setOpen} loadUserTable={loadUserTable} uid={uid} setUid={setUid}/>
+
     </> 
   )
 }

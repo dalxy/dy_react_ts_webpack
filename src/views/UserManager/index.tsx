@@ -1,13 +1,15 @@
 import React from "react";
 import './index.less'
+import UploadImg from '@/components/UploadImg'
 
 function UserManager(){
+  let arr = [1,2,3]
+  console.log(...arr);
+  
   return(
     <>
-      <div className="bbb">
-        <div className="aaa">History is tempcs </div>
-      </div>
+      {/* <UploadImg></UploadImg> */}
     </>
   )
 }
-export default UserManager;
+export default UserManager; 

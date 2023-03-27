@@ -2,29 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Button, Popconfirm, Table  } from "antd";
 import type { ColumnsType } from 'antd/es/table';
 import { $AuthorityList, $DelAuthority } from "@/utils/api/authority";
-import './index.less'
-import AddAuthority from "./components/AddAuthority";
+import AddAuthority from "./AddAuthority";
 import notificate from "@/components/Notification";
-
-interface DataType {
-  dataIndex: string;
-  title: string;
-  tags?: string[];
-}
+import { DataType } from '@/typing/userTable'
 
 const AuthorityTable: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [authorityList, setAuthorityTable] = useState()
-  const [uid, setUid] = useState(0);
+  const [authorityId, setAuthorityId] = useState(0);
 
   const columns:ColumnsType<DataType> = [
     {
       title: '用户id',
-      dataIndex: 'uid',
+      dataIndex: 'authorityId',
     },
     {
       title: '用户名称',
-      dataIndex: 'userName',
+      dataIndex: 'authorityName',
     },
     {
       title: '操作',
@@ -54,7 +48,7 @@ const AuthorityTable: React.FC = () => {
   ];
   
   const del = async (data: any) => {
-    let {data: res} = await $DelAuthority({uid: data.uid})
+    let {data: res} = await $DelAuthority({authorityId: data.authorityId})
     if(res.code === 0){
       notificate({type: 'success', message: res.message})
       loadAuthorityList()
@@ -65,7 +59,7 @@ const AuthorityTable: React.FC = () => {
 
   const edit = async (data: any) => {
     setOpen(true)
-    setUid(data.uid)
+    setAuthorityId(data.authorityId)
   }
   
   const loadAuthorityList = async () => {
@@ -74,7 +68,7 @@ const AuthorityTable: React.FC = () => {
       authorityList = authorityList.map((r: any)=>{
         return {
           ...r,
-          key: r.uid
+          key: r.authorityId
         }
       })
       setAuthorityTable(authorityList)
@@ -87,12 +81,12 @@ const AuthorityTable: React.FC = () => {
 
   return(
     <>
-      <div className="search">
+      <div className="search" style={{marginBottom: '5px'}}>
         <Button size="small"
           onClick={
             () => { 
               setOpen(true);
-              // setUid(0) 
+              // setAuthorityId(0) 
             }
           }
         >
@@ -100,7 +94,7 @@ const AuthorityTable: React.FC = () => {
         </Button>
       </div>
       <Table size="small" dataSource={authorityList} columns={columns} />
-      <AddAuthority open={open} setOpen={setOpen} loadAuthorityList={loadAuthorityList} uid={uid} setUid={setUid}/>
+      <AddAuthority open={open} setOpen={setOpen} loadAuthorityList={loadAuthorityList} authorityId={authorityId} setAuthorityId={setAuthorityId}/>
     </> 
   )
 }
