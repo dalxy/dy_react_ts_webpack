@@ -1,44 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Drawer, Form, Input, Popconfirm, Table } from "antd";
+import { Button, Pagination , Popconfirm, Select, Table } from "antd";
 import { $UserTable, $DelUser } from "@/utils/api/userManagerApi";
+import { $AuthorityList } from "@/utils/api/authority";
 import './index.less'
 import AddUser from './AddUser'
 import type { ColumnsType } from 'antd/es/table';
 import { DataType } from '@/typing/userTable'
 import notificate from "@/components/Notification";
+import { baseURL } from "@/config";
 
 const UsersTable: React.FC = () => {
   const [userTable, setUserTable] = useState([])
   const [open, setOpen] = useState(false);
   const [uid, setUid] = useState(0);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [count, setCount] = useState(0);
+  const [authorityId, setAuthorityId] = useState(0);
+  const [authorityList, setAuthorityTable] = useState([])
   const columns: ColumnsType<DataType> = [
     {
       title: '编号',
       dataIndex: 'uid',
     },
     {
-      title: '用户id',
+      title: '账号',
       dataIndex: 'userId',
-    },
-    {
-      title: '密码',
-      dataIndex: 'password',
     },
     {
       title: '姓名',
       dataIndex: 'userName',
+      width: '150px'
     },
     {
       title: '手机号',
       dataIndex: 'mobile',
     },
     {
-      title: '照片',
+      title: '头像',
       dataIndex: 'photo',
+      render: (imgUrl) => (
+        <>
+          <img style={{width: '50px'}} src={`${baseURL}headSculpture/${imgUrl} `} alt="" />
+        </>
+      )
     },
     {
       title: '角色',
-      dataIndex: 'authorityId',
+      dataIndex: 'authorityName',
     },
     {
       title: '操作',
@@ -66,8 +74,14 @@ const UsersTable: React.FC = () => {
       ),
     },
   ];
+
+//   const handleChange = (value: any) => {
+//     console.log(`selected ${value}`);
+//     setAuthorityId(Number(value))
+// };
+
   const del = async (data: any) => {
-    let {data: res} = await $DelUser({uid: data.uid})
+    let {data: res} = await $DelUser({uid: data.uid, photo: data.photo})
     if(res.code === 0){
       notificate({type: 'success', message: res.message})
       loadUserTable()
@@ -80,83 +94,71 @@ const UsersTable: React.FC = () => {
     setOpen(true)
     setUid(data.uid)
   }
-
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
-  
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
+  const loadAuthorityList = async () => {
+    $AuthorityList().then((res)=>{
+      let { authorityList } = res.data
+      authorityList = authorityList.map((r: any)=>{
+      return {
+        value: r.authorityId,
+        label: r.authorityName
+      }
+    })
+    authorityList.unshift({value: '0', label: '请选择角色'})
+    setAuthorityTable(authorityList)
+  })
+  }
   const loadUserTable= async () => {
-    $UserTable({pageIndex: 1, pageSize: 10}).then((res)=>{
-      let { userList } = res.data
-      console.log(userList)
+    $UserTable({authorityId: authorityId, pageIndex: pageIndex, pageSize: 10}).then((res)=>{
+      let { total, userList } = res.data
+      console.log(res.data)
       userList = userList.map((r: any)=>{
         return {
           ...r,
-          key: r.uid
+          key: r.uid,
+          authorityName: r.authority.authorityName
         }
       })
+      console.log(total);
+      
+      setCount(total)
       setUserTable(userList)
     })
   }
   useEffect(()=>{
+    loadAuthorityList()
     loadUserTable()
-  }, [])
+  }, [pageIndex])
   return(
     <>
       <div className="search">
+        <span>角色: </span>
+        <Select
+          onChange={(value)=>{setAuthorityId(Number(value))}}
+          options={authorityList}
+          defaultValue = { '0' }
+          style = {{width: '200px'}}
+        />
+        <Button type="primary" style={{marginLeft: '5px'}} onClick = {() => {loadUserTable()}}
+        >查询</Button>
         <Button size="small"
+        style={{marginLeft: '5px'}}
           onClick={()=>{setOpen(true)}}
         >
           添加
         </Button>
       </div>
-      <Table size="small" dataSource={userTable} columns={columns} />
-      {/* <Drawer title="添加角色" width={500} placement="right" onClose={onClose} open={open}>
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Drawer> */}
+      <Table size="small" dataSource={userTable} columns={columns} pagination={false} />
+      <Pagination size="small"
+        total={count}
+        defaultCurrent={pageIndex} 
+        current={pageIndex} 
+        hideOnSinglePage={false} 
+        onChange = {(pageIndex) => {
+          setPageIndex(pageIndex)
+        }}
+        pageSize = {10}
+      />
       <AddUser open={open} setOpen={setOpen} loadUserTable={loadUserTable} uid={uid} setUid={setUid}/>
-
     </> 
   )
 }

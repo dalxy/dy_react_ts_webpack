@@ -22,16 +22,14 @@ const AddUser: React.FC<AddUserProps> = ({open, setOpen, loadUserTable, uid, set
     const [authorityList, setAuthorityTable] = useState()
     const onFinish = async (values: any) => {
         if(uid){
-            // values.uid = uid
-            // values = values.push(uid)
-            console.log(1,values)
-            // let {data: res} = await $EditUser(values)
-            // if(res.code === 0){
-            //     notificate({type: 'success', message: res.message})
-            //     loadUserTable()
-            // }else{
-            //     notificate({type: 'error', message: res.message})
-            // }
+            values.uid = uid
+            let {data: res} = await $EditUser(values)
+            if(res.code === 0){
+                notificate({type: 'success', message: res.message})
+                loadUserTable()
+            }else{
+                notificate({type: 'error', message: res.message})
+            }
         }else{
             let {data: res} = await $AddUser({
                 uid: uid,
@@ -56,6 +54,8 @@ const AddUser: React.FC<AddUserProps> = ({open, setOpen, loadUserTable, uid, set
     };
     const loadAuthorityList = async () => {
         $AuthorityList().then((res)=>{
+            console.log(res.data);
+            
             let { authorityList } = res.data
             authorityList = authorityList.map((r: any)=>{
             return {
@@ -119,6 +119,7 @@ const AddUser: React.FC<AddUserProps> = ({open, setOpen, loadUserTable, uid, set
                         label="账号"
                         name="userId"
                         rules={[{ required: true, message: 'Please input your userId!' }]}
+                        hidden= { uid ? true : false }
                     >
                         <Input />
                     </Form.Item>
@@ -133,6 +134,7 @@ const AddUser: React.FC<AddUserProps> = ({open, setOpen, loadUserTable, uid, set
                         label="密码"
                         name="password"
                         rules={[{ required: true, message: 'Please input your password!' }]}
+                        hidden= { uid ? true : false }
                     >
                         <Input.Password />
                     </Form.Item>

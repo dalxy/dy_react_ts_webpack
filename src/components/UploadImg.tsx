@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { message, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { baseURL } from '@/config';
 
 // 图片转base64方法
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
@@ -53,7 +54,13 @@ const UploadImg: React.FC<UploadImgProps> = ({form}) => {
             <div style={{ marginTop: 8 }}>上传</div>
         </div>
     );
-
+        useEffect(()=>{
+            // 在编辑状态中拿到图片地址，显示图片
+            let photoUrl = form.getFieldValue('photo')
+            if(photoUrl){
+                setImageUrl(`${baseURL}headSculpture/${photoUrl}`)
+            }
+        }, [form.getFieldValue('photo')])
     return (
         <>
             <Upload
@@ -61,7 +68,7 @@ const UploadImg: React.FC<UploadImgProps> = ({form}) => {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action="http://152.136.150.189:3000/reactAdmin/getUploadImg"
+                action={`${baseURL}reactAdmin/getUploadImg`}
                 beforeUpload={beforeUpload}
                 onChange={handleChange}
             >

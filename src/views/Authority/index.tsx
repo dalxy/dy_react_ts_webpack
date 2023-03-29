@@ -8,7 +8,7 @@ import { DataType } from '@/typing/userTable'
 
 const AuthorityTable: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [authorityList, setAuthorityTable] = useState()
+  const [authorityList, setAuthorityTable] = useState([])
   const [authorityId, setAuthorityId] = useState(0);
 
   const columns:ColumnsType<DataType> = [
