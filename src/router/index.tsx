@@ -1,11 +1,10 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+// 导入提供器组件
 import { Provider } from 'react-redux';
-import store from '@/store/index'
+// 导入store
+import store from '@/redux/index'
 import { Redirect } from '@/hook/Redirect';
-
-// import LayoutPage from '@/layout/index';
 
 const Register = lazy(() => import('@/views/Register'));
 const Login = lazy(() => import('@/views/Login'));
@@ -16,10 +15,10 @@ const UserManger = lazy(() => import('@/views/UserManager'));
 const Rule = lazy(() => import('@/views/Rule'));
 const UserTable = lazy(() => import('@/views/UserTable'));
 const Authority = lazy(() => import('@/views/Authority'));
+const UserInfo = lazy(() => import('@/views/UserInfo'));
 
 const App = () => (
   <Provider store = { store }>
-    {/* <LayoutPage /> */}
     <Router>
       <Suspense fallback={<div>Loading。。。</div>}>
         <Routes>
@@ -32,6 +31,7 @@ const App = () => (
             <Route path="userTable" element={<UserTable />} />
             <Route path="authority" element={<Authority />} />
             <Route path="rule" element={<Rule />} />
+            <Route path="userInfo" element={<UserInfo />} />
           </Route>
           <Route path="/" element={<Redirect to='/login' replace />} />
         </Routes>

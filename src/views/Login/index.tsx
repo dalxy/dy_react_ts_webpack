@@ -2,11 +2,14 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from 'antd';
 import type { FormInstance } from 'antd/es/form';
+import { useDispatch } from "react-redux";
 
 import './index.less'
 import  { $login } from '@/utils/api/adminApi'
+import { $GetUser } from "@/utils/api/userManagerApi";
 import { LoginParams } from "@/typing/auth";
 import notificate from '@/components/Notification'
+import { adminSlice } from "@/redux";
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,22 +19,25 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-// function Login() {
 const Login: React.FC = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const  { setAdmin } = adminSlice.actions
   useEffect(()=>{
     if(sessionStorage.getItem('token')){
-      navigate('/layout')
+      navigate('/layout/home')
     }
   }, [])
   const formRef = React.createRef<FormInstance>();
   const onFinish = async (values: LoginParams) => {
-    values.uid = '1492379424'
+    // console.log(values);
     const res= await $login(values);
     if(res.code === 0){
-      // window.location.href = '/home'
+      let userInfo = await $GetUser({userid: values.userId})
+      // console.log(userInfo);
+      dispatch(setAdmin(userInfo.data.userList[0]))
       notificate({type: 'success', message: res.message})
-      navigate('/layout')
+      navigate('/layout/home')
     }else{
       notificate({type: 'error', message: res.message})
     }
@@ -39,8 +45,8 @@ const Login: React.FC = () => {
   // 自动填充用户名和密码
   const onFill = () => {
     formRef.current!.setFieldsValue({
-      username: 'admin',
-      password: 123456,
+      userId: 'admin',
+      password: 'admin',
     });
   };
   const handleRemoveAttr = (event: any) => {
@@ -51,7 +57,7 @@ const Login: React.FC = () => {
     <div className="login">
       <div className="title">人类观察所</div>
       <Form {...layout} ref={formRef} name="control-ref" onFinish={onFinish} className="form">
-        <Form.Item label="Username" name="username"
+        <Form.Item label="username" name="userId"
         rules={[{ required: true, message: 'Please input your username!' }]}>
           <Input placeholder="请输入用户名" />
         </Form.Item>
