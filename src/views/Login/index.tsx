@@ -33,8 +33,9 @@ const Login: React.FC = () => {
     // console.log(values);
     const res= await $login(values);
     if(res.code === 0){
+      sessionStorage.setItem('userId', values.userId)
       let userInfo = await $GetUser({userid: values.userId})
-      // console.log(userInfo);
+      // 将当前登录账户信息存储到redux
       dispatch(setAdmin(userInfo.data.userList[0]))
       notificate({type: 'success', message: res.message})
       navigate('/layout/home')

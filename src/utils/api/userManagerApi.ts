@@ -34,3 +34,9 @@ export const $GetUser = async (params?: any) => {
     const res = await axios.post("/reactAdmin/getUser", params);
     return res;
 };
+
+// 修改密码
+export const $ResetPwd = async (params?: any) => {
+    const res = await axios.post("/reactAdmin/resetPwd", params);
+    return res;
+};

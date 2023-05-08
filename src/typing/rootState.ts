@@ -5,4 +5,5 @@ export interface adminProps {
     photo: string;
     mobile: number;
     authorityId: number;
+    authorityName: string;
 }

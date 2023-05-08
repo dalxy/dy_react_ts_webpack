@@ -31,3 +31,5 @@ ul {
 }
 
 ## npm install redux react-redux @reduxjs/toolkit @types/react-redux
+
+## 1
