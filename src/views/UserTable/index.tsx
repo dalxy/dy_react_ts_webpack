@@ -75,11 +75,6 @@ const UsersTable: React.FC = () => {
     },
   ];
 
-//   const handleChange = (value: any) => {
-//     console.log(`selected ${value}`);
-//     setAuthorityId(Number(value))
-// };
-
   const del = async (data: any) => {
     let {data: res} = await $DelUser({uid: data.uid, photo: data.photo})
     if(res.code === 0){

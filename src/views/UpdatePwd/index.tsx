@@ -3,27 +3,18 @@ import { Button, Form, Input } from "antd";
 import { adminProps } from "@/typing/rootState";
 import { useSelector } from "react-redux";
 import { $ResetPwd } from "@/utils/api/userManagerApi";
+import notificate from "@/components/Notification";
 
 const UpdatePwd: React.FC = () => {
-
     const loginAdmin = useSelector((state: adminProps) => state.adminSlice.admin);    const [form] = Form.useForm()
-    // console.log(loginAdmin);
     const onFinish = async (values: any) => {
         console.log(values);
         const res= await $ResetPwd(values);
-        
-        let {data} = res
-        console.log(data);
-        // if(res.code === 0){
-        //   sessionStorage.setItem('userId', values.userId)
-        //   let userInfo = await $GetUser({userid: values.userId})
-        //   // 将当前登录账户信息存储到redux
-        //   dispatch(setAdmin(userInfo.data.userList[0]))
-        //   notificate({type: 'success', message: res.message})
-        //   navigate('/layout/home')
-        // }else{
-        //   notificate({type: 'error', message: res.message})
-        // }
+        if(res.data.code === 0){
+            notificate({type: 'success', message: res.data.message})
+        }else{
+            notificate({type: 'error', message: res.data.message})
+        }
     };
     const onClose = () => {
         clearForm()

@@ -19,6 +19,7 @@ const UserTable = lazy(() => import('@/views/UserTable'));
 const Authority = lazy(() => import('@/views/Authority'));
 const UserInfo = lazy(() => import('@/views/UserInfo'));
 const UpdatePwd = lazy(() => import('@/views/UpdatePwd'));
+const AreaType = lazy(() => import('@/views/AreaType'));
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
@@ -51,6 +52,7 @@ const App: React.FC = () => {
               <Route path="rule" element={<Rule />} />
               <Route path="userInfo" element={<UserInfo />} />
               <Route path="updatePwd" element={<UpdatePwd />} />
+              <Route path="areaType" element={<AreaType />} />
             </Route>
             <Route path="/" element={<Redirect to='/login' replace />} />
           </Routes>

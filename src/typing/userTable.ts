@@ -4,3 +4,10 @@ export interface DataType {
     tags?: string[];
     hidden?: boolean;
 }
+
+export interface AreaType {
+    dataIndex: string;
+    title: string;
+    tags?: string[];
+    hidden?: boolean;
+}

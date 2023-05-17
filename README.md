@@ -32,4 +32,6 @@ ul {
 
 ## npm install redux react-redux @reduxjs/toolkit @types/react-redux
 
-## 1
+## npm install react-quill --save
+
+## finish: 1-37
