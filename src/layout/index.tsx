@@ -51,14 +51,24 @@ const navItem: MenuProps['items'] = [
     label: '规则',
   },
   {
-    key: 'areaManage',
+    key: 'income',
+    icon: <UploadOutlined />,
+    label: '收入',
+  },
+  {
+    key: 'areas',
     icon: <VideoCameraOutlined />,
-    label: '区域管理',
+    label: '地区',
     children: [
       {
         key: 'areaType',
         icon: <VideoCameraOutlined />,
-        label: '区域类型',
+        label: '地区类型',
+      },
+      {
+        key: 'areaManage',
+        icon: <VideoCameraOutlined />,
+        label: '地区管理',
       },
     ]
   },

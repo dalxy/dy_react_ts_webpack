@@ -20,7 +20,9 @@ const Authority = lazy(() => import('@/views/Authority'));
 const UserInfo = lazy(() => import('@/views/UserInfo'));
 const UpdatePwd = lazy(() => import('@/views/UpdatePwd'));
 const AreaType = lazy(() => import('@/views/AreaType'));
+const AreaManage = lazy(() => import('@/views/AreaManage'));
 
+const Income = lazy(() => import('@/views/Income'));
 const App: React.FC = () => {
   const dispatch = useDispatch()
   const  { setAdmin } = adminSlice.actions
@@ -53,6 +55,9 @@ const App: React.FC = () => {
               <Route path="userInfo" element={<UserInfo />} />
               <Route path="updatePwd" element={<UpdatePwd />} />
               <Route path="areaType" element={<AreaType />} />
+              <Route path="areaManage" element={<AreaManage />} />
+              
+              <Route path="income" element={<Income />} />
             </Route>
             <Route path="/" element={<Redirect to='/login' replace />} />
           </Routes>

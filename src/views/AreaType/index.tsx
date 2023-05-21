@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { $AreaTypeList } from "@/utils/api/areaApi";
+import { $AreaTypeList, $DelAreaType } from "@/utils/api/areaApi";
 import { Button, Pagination , Popconfirm, Select, Table } from "antd";
 import type { ColumnsType } from 'antd/es/table';
 import { DataType } from '@/typing/userTable'
@@ -27,6 +27,11 @@ const AreaType: React.FC = () => {
         {
             title: '数量',
             dataIndex: 'areaTypeNum',
+        },
+        {
+            title: '信息',
+            dataIndex: 'areaTypeMessage',
+            width: '200px'
         },
         {
             title: '操作',
@@ -59,13 +64,13 @@ const AreaType: React.FC = () => {
         setAreaTypeId(data.areaTypeId)
     }
     const del = async (data: any) => {
-        // let {data: res} = await $DelUser({uid: data.uid, photo: data.photo})
-        // if(res.code === 0){
-        //   notificate({type: 'success', message: res.message})
-        //   loadUserTable()
-        // }else{
-        //   notificate({type: 'error', message: res.message})
-        // }
+        let {data: res} = await $DelAreaType({areaTypeId: data.areaTypeId})
+        if(res.code === 0){
+            notificate({type: 'success', message: res.message})
+            loadAreaTypeList()
+        }else{
+            notificate({type: 'error', message: res.message})
+        }
     }
 
     const loadAreaTypeList = async () => {
@@ -79,6 +84,8 @@ const AreaType: React.FC = () => {
                     areaTypeName: r.areaTypeName
                 }
             })
+            console.log(areaTypeList);
+            
             setAreaTypeList(areaTypeList)
         })
     }

@@ -11,3 +11,11 @@ export interface AreaType {
     tags?: string[];
     hidden?: boolean;
 }
+
+export interface AreaDataType {
+    dataIndex: string;
+    title: string;
+    tags?: string[];
+    hidden?: boolean;
+    status?: string;
+}
