@@ -13,10 +13,10 @@ import { adminSlice } from "@/redux";
 
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 24 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { offset: 8, span: 24 },
 };
 
 const Login: React.FC = () => {
@@ -56,33 +56,36 @@ const Login: React.FC = () => {
 
   return (
     <div className="login">
-      <div className="title">人类观察所</div>
-      <Form {...layout} ref={formRef} name="control-ref" onFinish={onFinish} className="form">
-        <Form.Item label="username" name="userId"
-        rules={[{ required: true, message: 'Please input your username!' }]}>
-          <Input placeholder="请输入用户名" />
+      <div className="loginBox">
+        <div className="title">人类观察所</div>
+        <Form {...layout} ref={formRef} style={{width: '100%'}} name="control-ref" onFinish={onFinish}>
+          <Form.Item name="userId" rules={[{ required: true, message: '请输入用户名' }]}>
+              <Input placeholder="请输入用户名"  />
+          </Form.Item>
+          <Form.Item name='password' rules={[{ required: true, message: '请输入密码' }]}>
+            <Input.Password
+              readOnly
+              placeholder="请输入密码" 
+              onFocus={ handleRemoveAttr }/>
+          </Form.Item>
+          <Form.Item >
+            {/* {...tailLayout} */}
+            <div className="btns_box">
+              <Button type="primary" htmlType="submit">
+                登录
+              </Button>
+              <Link to = '/register'>
+                <Button htmlType="button">
+                注册
+                </Button>
+              </Link>
+              <Button type="link" htmlType="button" onClick={onFill}>
+                Fill form
+              </Button>
+            </div>
         </Form.Item>
-        <Form.Item label="Password" name='password'
-        rules={[{ required: true, message: 'Please input your password!' }]}>
-          <Input.Password
-          readOnly
-          placeholder="请输入密码" 
-          onFocus={ handleRemoveAttr }/>
-        </Form.Item>
-        <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          登录
-        </Button>
-        <Link to = '/register'>
-          <Button htmlType="button">
-          注册
-          </Button>
-        </Link>
-        <Button type="link" htmlType="button" onClick={onFill}>
-          Fill form
-        </Button>
-      </Form.Item>
-      </Form>
+        </Form>
+      </div>
     </div>
   );
 }
